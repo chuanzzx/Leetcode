@@ -2,7 +2,7 @@ class Solution {
 public:
     int minDistance(string word1, string word2) {
         int DP_i = word1.size() + 1, DP_j = word2.size() + 1;
-        int ** DP = new int * [DP_i];
+        int ** DP = new int * [DP_i], res = 0;
         Initialize (DP, DP_i, DP_j);
         
         // run DP table
@@ -12,7 +12,15 @@ public:
                 DP[i][j] = minChoice (DP[i][j - 1] + 1, DP[i - 1][j] + 1, rep);
             }
         }
-        return DP[DP_i - 1][DP_j - 1];
+        res = DP[DP_i - 1][DP_j - 1];
+        
+        for (int i = 0; i < DP_i; i++) {
+            delete [] DP[i];
+            DP[i] = nullptr;
+        }
+        delete [] DP;
+        DP = nullptr;
+        return res;
     }
     
 private:
